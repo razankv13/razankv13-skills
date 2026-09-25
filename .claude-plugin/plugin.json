@@ -1,10 +1,10 @@
 {
   "name": "mobile-ux",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Behavioral UX for iOS/Android apps: flow design, friction audits, and consults on onboarding, paywalls, permissions, account deletion, errors, and notifications.",
   "author": { "name": "Raza Abbas" },
-  "homepage": "https://github.com/razankv13/skills",
-  "repository": "https://github.com/razankv13/skills",
+  "homepage": "https://github.com/razankv13/razankv13-skills",
+  "repository": "https://github.com/razankv13/razankv13-skills",
   "license": "MIT",
   "keywords": ["mobile", "ux", "ios", "android", "flutter", "onboarding", "paywall", "audit"]
 }
