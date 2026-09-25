@@ -1,0 +1,12 @@
+{
+  "name": "razankv13-skills",
+  "owner": { "name": "Raza Abbas", "email": "razankv13@gmail.com" },
+  "description": "Agent skills by Raza Abbas",
+  "plugins": [
+    {
+      "name": "mobile-ux",
+      "source": "./",
+      "description": "Behavioral UX for iOS/Android apps: flow design, friction audits, and consults on onboarding, paywalls, permissions, account deletion, errors, and notifications."
+    }
+  ]
+}
