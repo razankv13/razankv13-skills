@@ -1,0 +1,80 @@
+{
+  "skill_name": "mobile-ux",
+  "evals": [
+    {
+      "id": 0,
+      "name": "paywall-consult",
+      "prompt": "In our habit tracker app (Flutter, iOS+Android) we show the paywall right after the 3 intro onboarding screens, before the user creates their first habit. Trial start rate is about 4%. Should we move it? Where?",
+      "expected_output": "Consult: move paywall after first completed core action (first habit created/checked in), decline visible, cites playbook, gives Verify-by check, lists assumptions, metric pending baseline.",
+      "files": [],
+      "assertions": [
+        "Recommends moving the paywall to after the first completed core action (e.g. first habit created or first check-in), not before it",
+        "Names a metric to watch, labeled 'pending baseline' or tied to the user's 4% figure, rather than invented industry benchmarks",
+        "Includes a concrete 'Verify by' check the user can run",
+        "Does not state uplift or industry benchmark numbers as fact without a source or explicit hedge",
+        "Requires the decline/close option to be visible and neutrally worded",
+        "Lists assumptions made from missing context"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "account-deletion-flow",
+      "prompt": "Design the in-app account deletion flow for our food delivery app (iOS + Android). Some users have an active order in progress and some have wallet credit left. Apple requires deletion to be possible inside the app.",
+      "expected_output": "Flow design: numbered step map, states per step, handles active order + wallet credit, irreversible action uses confirmation not undo, back behavior, primary metric + guardrail with pending baseline, assumptions.",
+      "files": [],
+      "assertions": [
+        "A numbered step map is the main structure of the answer (not only a trailing recap list)",
+        "Handles the active-order case explicitly (block, wait, or cancel path) rather than ignoring it",
+        "Handles remaining wallet credit explicitly (refund, forfeit disclosure, or use-first)",
+        "Uses an explicit confirmation step for the irreversible deletion (not undo-only)",
+        "Names loading/error/success states for the steps",
+        "States back-navigation or interruption/resume behavior",
+        "Names a primary metric and a guardrail metric, with a baseline or 'pending baseline' label",
+        "States deletion is reachable in-app (e.g. from Settings) without contacting support, and the cancel/keep option is neutrally worded (no confirmshaming)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "signup-audit",
+      "prompt": "Audit our sign-up flow for friction. Here's the flow as it ships today:\n1. Splash screen (2s)\n2. 4-page feature carousel, no skip button\n3. Back-to-back system prompts: notifications, location, contacts\n4. Sign-up form: first name, last name, email, phone, password, confirm password, date of birth, gender, referral code. Password rules only appear after you submit and it fails.\n5. Must verify email via link before anything else works\n6. Home screen shows 'No items yet' with nothing else\nWe're a local events discovery app.",
+      "expected_output": "Audit: P0/P1/P2 findings each with evidence, harm, fix, metric; flags upfront permissions, no-skip carousel, long form, late password rules, verification gate, dead empty state; unverifiable items marked Not verified.",
+      "files": [],
+      "assertions": [
+        "Uses at least two distinct severity levels; a polish-level issue (e.g. the 2s splash) is not rated the same as major friction",
+        "Flags the back-to-back upfront permission prompts (notifications/location/contacts) as a problem",
+        "Flags the email-verification gate before any value as a problem",
+        "Flags the password rules appearing only after a failed submit",
+        "Flags the dead-end empty home state ('No items yet' with nothing else)",
+        "Each finding gives a fix and a metric to prove it",
+        "Marks at least one item as not verifiable from a written description (e.g. timing, screen reader, offline)",
+        "Names exactly one finding as the one to fix first"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "checkout-mixed-ux-ui",
+      "prompt": "Our checkout 'Pay now' button feels off. Make it bigger and use our brand purple gradient. Also, users keep double-tapping it and getting charged twice. Fix both.",
+      "expected_output": "Handles double-charge behaviorally (disable/pending state until authoritative confirmation, idempotency, no optimistic success); hands visual button styling to UI skill with a compact contract instead of prescribing size/gradient.",
+      "files": [],
+      "assertions": [
+        "Addresses the double charge with a behavioral fix: button disabled/pending immediately on first tap until an authoritative result",
+        "Mentions server-side idempotency (idempotency key or equivalent) as part of the double-charge fix",
+        "Explicitly states payment success is shown only after server or payment-provider confirmation",
+        "Hands the visual changes (size, gradient) to a UI skill/designer rather than prescribing exact pixel sizes or gradient values",
+        "Explicitly states the double-charge fix is more urgent, using words like urgent, priority, or ships first, rather than conveying it only through ordering"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "audit-no-artifact",
+      "prompt": "Do a UX friction audit of Duolingo's onboarding for me.",
+      "expected_output": "Asks for a flow artifact (screens, recording, or written flow) before auditing; does not produce a fabricated audit from the app name alone.",
+      "files": [],
+      "assertions": [
+        "Asks the user for a flow artifact (screens, recording, or written flow) before auditing",
+        "Does not present a full severity-ranked audit of Duolingo's onboarding as if from evidence",
+        "Explains why an app name alone is insufficient (e.g. flow varies by version/platform/region/experiment, or memory is not evidence)"
+      ]
+    }
+  ]
+}
