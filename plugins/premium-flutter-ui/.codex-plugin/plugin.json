@@ -1,0 +1,25 @@
+{
+  "name": "premium-flutter-ui",
+  "version": "1.0.0",
+  "description": "Premium Flutter UI for iOS/Android: generate, refine, review, and audit screens, components, tokenized themes, motion, accessibility, dark mode, and M3 migration.",
+  "author": { "name": "Raza Abbas", "url": "https://github.com/razankv13" },
+  "homepage": "https://github.com/razankv13/razankv13-skills",
+  "repository": "https://github.com/razankv13/razankv13-skills",
+  "license": "MIT",
+  "keywords": ["flutter", "ui", "ios", "android", "material3", "theming", "accessibility", "motion"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Premium Flutter UI",
+    "shortDescription": "Generate and review premium Flutter UI",
+    "longDescription": "Build and review polished Flutter screens for iOS and Android: tokenized ThemeData and ThemeExtension systems, motion, accessibility, text scale and RTL, dark mode, edge-to-edge, M2 to M3 migration, and anti-generic UI critique.",
+    "developerName": "Raza Abbas",
+    "category": "Productivity",
+    "capabilities": ["Instructions"],
+    "websiteURL": "https://github.com/razankv13/razankv13-skills",
+    "defaultPrompt": [
+      "Design a polished Flutter settings screen.",
+      "Review this Flutter screen for accessibility and polish.",
+      "Migrate this theme to Material 3 tokens."
+    ]
+  }
+}

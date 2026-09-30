@@ -1,0 +1,10 @@
+{
+  "name": "premium-flutter-ui",
+  "version": "1.0.0",
+  "description": "Premium Flutter UI for iOS/Android: generate, refine, review, and audit screens, components, tokenized themes, motion, accessibility, dark mode, and M3 migration.",
+  "author": { "name": "Raza Abbas" },
+  "homepage": "https://github.com/razankv13/razankv13-skills",
+  "repository": "https://github.com/razankv13/razankv13-skills",
+  "license": "MIT",
+  "keywords": ["flutter", "ui", "ios", "android", "material3", "theming", "accessibility", "motion"]
+}

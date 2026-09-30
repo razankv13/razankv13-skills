@@ -5,8 +5,13 @@
   "plugins": [
     {
       "name": "mobile-ux",
-      "source": "./",
+      "source": "./plugins/mobile-ux",
       "description": "Behavioral UX for iOS/Android apps: flow design, friction audits, and consults on onboarding, paywalls, permissions, account deletion, errors, and notifications."
+    },
+    {
+      "name": "premium-flutter-ui",
+      "source": "./plugins/premium-flutter-ui",
+      "description": "Premium Flutter UI for iOS/Android: generate, refine, review, and audit screens, components, tokenized themes, motion, accessibility, dark mode, and M3 migration."
     }
   ]
 }
