@@ -53,7 +53,7 @@ Format: symptom — why it hurts — fix.
 - **Blank-slate onboarding.** New users face unnecessary setup before a useful action. — Effort before value can increase abandonment. — Useful defaults, optional samples, and progress reflecting actual completed steps.
 - **Unnecessary signup wall before value.** Registration demanded before any value without a service need. — Adds effort before users can evaluate the product. — Defer signup when possible; explain any necessary early identity requirement.
 - **Silent actions.** Taps with no acknowledgment; saves with no result signal. — User can't tell working from broken; retries cause duplicates. — Immediate acknowledgment and pending status; optimistic updates only with defined failure feedback and rollback or reconciliation.
-- **Confirm-dialog everything.** Every minor action interrupted with "Are you sure?" — Can train reflexive dismissal, so real warnings get dismissed too. — Principle 9 in `SKILL.md` (undo over confirm).
+- **Confirm-dialog everything.** Every minor action interrupted with "Are you sure?" — Can train reflexive dismissal, so real warnings get dismissed too. — `playbooks.md` Undo & Confirmation.
 - **Launch-time permission barrage.** All OS prompts fired on first open. — No context raises denial risk, and a denied OS prompt usually can't be re-shown. — Contextual asks with pre-framing.
 - **Error dead-ends.** Failure screens with no retry, or that discard input. — One flaky request can cost the user their work and erode trust. — Preserve input, retry in place, recovery path everywhere.
 - **Feature-count thinking.** Adding options and settings as the answer to every request. — Each addition can tax every user's decisions. — Solve with defaults and removal before addition.

@@ -4,6 +4,8 @@ Per-flow defaults with verification steps. Apply patterns when the product and e
 
 More playbooks — sign-in/recovery, session expiry, lists/feeds, app updates, rating prompts, platform consent prompts, screen size/rotation, localization, assistive tech, experiments — live in `playbooks-lifecycle.md`.
 
+`(Mobbin: …)` names the shipping apps where a rule's pattern was observed (links in `mobbin-evidence.md`). Mobbin's catalog is iOS; every rule applies to Android too, using the Android equivalent the rule names.
+
 ## Contents
 
 - Onboarding / First Run
@@ -11,6 +13,7 @@ More playbooks — sign-in/recovery, session expiry, lists/feeds, app updates, r
 - Empty States
 - Search
 - Errors and Recovery
+- Undo & Confirmation
 - Forms and Input
 - Decision & Commit Screens
 - Post-Action Status & Tracking
@@ -31,8 +34,9 @@ More playbooks — sign-in/recovery, session expiry, lists/feeds, app updates, r
 - Let users experience value before requiring an account when the service permits it. Offer creation only when useful and preservable; require identity earlier when necessary and explain why. Frame signup as saving progress only when that is what it does.
 - Show progress based on actual completed steps; start at 0% when none are complete.
 - Ask only for data you use immediately. Everything else can wait for context.
+- Personalization questions state in one line what the answer changes ("We'll recommend items that match") (Mobbin: Life Reset, UNIQLO, pliability, LinkedIn). Skip is offered when the answer only tailors content (Mobbin: UNIQLO, pliability, Insight Timer, LinkedIn) and absent when the service cannot run without it, such as an application or booking intake (Mobbin: Neo Financial, Fresha, Life Reset). How each question advances: Forms and Input, choice screens.
 - Onboarding content retires. Once the user has completed the aha action a few times, the entry screen stops showing setup prompts and hands over to the stage-appropriate home (see Lifecycle-Adaptive Home).
-- Verify by: counting taps/screens from launch to first value; checking that signup follows value or has an explained service need to come earlier; checking new and experienced user states — completed prompts retire, and any different content serves a demonstrated need.
+- Verify by: counting taps/screens from launch to first value; checking that signup follows value or has an explained service need to come earlier; checking every question screen has its why-line and offers Skip exactly when the answer is optional; checking new and experienced user states — completed prompts retire, and any different content serves a demonstrated need.
 
 ## Lifecycle-Adaptive Home
 
@@ -47,8 +51,9 @@ Adapt home when users at different stages have different demonstrated needs. A s
 
 - An empty state is onboarding, not a void. It must state what belongs here, why it's useful, and offer the single next action to fill it.
 - Never show a bare "no items" message with no path forward.
+- First-use wording: the title frames the missing thing as content still to come ("No activities yet", "Hidden restaurants will appear here") (Mobbin: komoot, timespent, Lex, Zomato), and the one action is a verb plus the title's noun ("Add activity", "Add accounts") (Mobbin: timespent, komoot, Origin, Cherrypick, Bluesky).
 - Where honest, seed with a sample or template so the first interaction is "edit" rather than "create from nothing."
-- Verify by: every list/collection screen has a designed empty case with exactly one primary action.
+- Verify by: every list/collection screen has a designed empty case with exactly one primary action whose label repeats the title's noun.
 
 ## Search
 
@@ -64,13 +69,22 @@ Tapping search is a moment of intent, often without a precise query. A blank scr
 
 - Every error message answers: what happened, why (if knowable), what the user can do now. Blame the system, not the user.
 - Preserve user input across every failure.
-- Offer retry in place; never dead-end into a screen the user must back out of.
+- Offer retry in place: the error replaces only the region whose data failed, while the tab bar, filters, and already-loaded content stay usable (Mobbin: Fresha, Noom, HYPE, Sesame). A full-screen error the user must back out of is a dead end.
 - Offline: distinguish "no connection" from "server error"; queue reversible actions locally and sync when possible; show what is stale vs. current.
+- Server or unknown errors add a support route (contact, help link) beside retry, since retrying alone may never succeed (Mobbin: Lloyds Mobile Banking, Noom, KOHO). Offline errors need only Try again.
 - Duplicate submits: a submit is idempotent or blocked while pending; a second tap never creates a second order, message, or charge.
 - Timeouts: the outcome is unknown, not failed. Reconcile (check server state) before offering retry, and say "checking" rather than "failed".
 - Partial success: in a batch (upload 10 photos, send to 5 people) report which items succeeded, keep them, and retry only the failed ones.
 - Payment failure: plain-language reason when the processor gives one, retry with the same or another method, order/cart intact, no charge stated until confirmed.
-- Verify by: walking each flow with network disabled, forced server errors, and a forced timeout after the server accepted the request; double-tapping every submit; confirming no input loss, no duplicate, and a recovery path at each failure point.
+- Verify by: walking each flow with network disabled, forced server errors, and a forced timeout after the server accepted the request; double-tapping every submit; confirming no input loss, no duplicate, a recovery path at each failure point, navigation still usable beside each error, and a support route on server errors.
+
+## Undo & Confirmation
+
+Principle 9 in `SKILL.md` picks the mechanism by what the action destroys, not by its name: archiving a conversation is undone (Mobbin: LinkedIn, Fiverr); archiving a savings goal that removes its balances is confirmed (Mobbin: Copilot).
+
+- Undo: act immediately, then show a message naming the object (with a count when more than one) and the past-tense verb, with one Undo action ("Conversation archived · Undo", "2 conversations archived · Undo") (Mobbin: LinkedIn, Fiverr, Starbucks, Quo, Notion Mail).
+- Confirmation: the title is the verb as a question ("Archive goal?"), the body states what is lost and what survives ("History is kept; balances are removed"), and the confirm button repeats the verb ("Archive", "Delete account") (Mobbin: Copilot, Insight Timer, Orbit, Vestiaire Collective).
+- Verify by: listing every destructive action with its mechanism and what it destroys; each undo message names the object and the verb; each confirm button is a verb.
 
 ## Forms and Input
 
@@ -81,7 +95,8 @@ Tapping search is a moment of intent, often without a precise query. A blank scr
 - CTA copy states the outcome when it is known ("Search 12 available tables", "Add to cart · $3.10"), not the verb alone.
 - Validate inline as the user completes each field, not as a wall of errors on submit. Never clear the form on validation failure.
 - Support autofill and keep the submit action reachable while the keyboard is up.
-- Verify by: counting required fields (challenge each); submitting with each field invalid and confirming input survives; for each numeric control, naming its entry frequency and precision and checking the control matches.
+- Choice screens (one question per screen: onboarding, surveys, intake): a single-choice preference question advances on tap with no Continue (Mobbin: pliability, BitePal, Insight Timer, Fresha). Apps also ship an explicit Continue for single choice (Mobbin: Neo Financial, Ahead, LinkedIn) and Mobbin shows no deciding signal; use Continue when the answer feeds an application or other consequential record (Neo Financial's residency question). Multi-select enables Continue at the first pick (Mobbin: UNIQLO, Hers, Mindtrip).
+- Verify by: counting required fields (challenge each); submitting with each field invalid and confirming input survives; for each numeric control, naming its entry frequency and precision and checking the control matches; on each choice screen, checking the advance mechanism matches its question type.
 
 ## Decision & Commit Screens
 
@@ -108,9 +123,10 @@ Order, booking, application, upload, delivery — any state between commit and f
 ## Permissions
 
 - Never ask on launch. Ask in the moment the feature needs it, after the user initiated the related action ("contextual ask").
-- Pre-frame with your own explanation of value before triggering the OS dialog — a declined OS prompt is expensive to reverse.
+- Pre-frame on your own screen before the OS dialog — a declined OS prompt is expensive to reverse. Its headline names what the user will get ("Never miss a sale, restock or order update"), not the permission ("Enable notifications") (Mobbin: Opendoor, Zalando, Ladder, Particle News, Amie, DailyArt).
+- The pre-frame carries a secondary "Not now" that closes it without firing the OS prompt, keeping the one-time prompt for a later contextual ask (Mobbin: Zalando, Particle News, Ladder, Amie). A Continue-only pre-frame (Mobbin: Opendoor, DailyArt) fits only a feature that is the notification itself, such as a daily reminder.
 - Handle denial gracefully: the app must remain usable, with a path to re-enable when the user later wants the feature.
-- Verify by: mapping each permission to the user action that triggers it; confirming app behavior when every permission is denied.
+- Verify by: mapping each permission to the user action that triggers it; tapping "Not now" on each pre-frame and confirming no OS prompt appears; confirming app behavior when every permission is denied.
 
 ## Interruption and Resume
 
@@ -159,10 +175,11 @@ A notification is an interruption spent from a limited trust budget. Every send 
 - One job per notification: it announces one thing and taps through to exactly that thing — never the home screen.
 - Ask for notification permission in context, after the user has done the thing notifications extend (placed an order, followed a topic). On iOS consider provisional authorization (quiet delivery) before asking for full alerts.
 - Give per-category controls in-app (orders vs. marketing vs. social), not one master switch. Honor them absolutely.
+- Each category row says when it fires ("when someone comments on your list") (Mobbin: Shopify, corner, Polarsteps, ShopBack). Transactional categories (orders, appointments, security) and promotional ones (offers, feature news) sit in separate groups, so turning off every promotional switch leaves transactional ones on (Mobbin: Fresha, ShopBack, Polarsteps, Shopify). When the OS permission is off, this screen follows `playbooks-lifecycle.md` Platform Consent Prompts.
 - Batch low-priority events; respect quiet hours; never notify to announce features the user didn't ask about.
 - Re-engagement triggers on value events in the user's world (their content received activity, a thing they track changed, a real deadline nears) — not on mere absence. "We miss you" carries no user-side news, so it is likely to read as noise.
 - Every re-engagement notification passes the test: would the user thank you for the interruption? If not, don't send.
-- Verify by: tapping every notification type — lands on the exact content with a working back path; disabling each category and confirming zero sends from it; checking each template names a concrete user-side event.
+- Verify by: tapping every notification type — lands on the exact content with a working back path; disabling each category and confirming zero sends from it; disabling all promotional categories and confirming transactional ones still send; checking each template and each category row names a concrete user-side event.
 
 ## Paywall & Upgrade Placement
 
@@ -171,9 +188,11 @@ A notification is an interruption spent from a limited trust budget. Every send 
 - State free-tier limits up front at the start of use; hitting an undisclosed limit mid-task reads as a bait-and-switch.
 - The decline path is visible from the first frame (no delayed close button), one tap, and neutrally worded.
 - One ask per success moment: a paywall, rating prompt, or permission request each gets its own boundary, never stacked on the same completion. After decline, the app keeps every promise the free tier made.
-- Trial mechanics are honest: end date shown at start, reminder before charging, cancel path per the Hard rules in `SKILL.md`.
+- Trial paywalls show a three-step timeline above the purchase action: today (what unlocks) → reminder (a named day before the trial ends) → charge (date and amount) (Mobbin: pillowtalk, Copilot, Stardust). The action names the trial length ("Start 7-day free trial") (Mobbin: Bevel, Stardust, Copilot). The app sends the reminder on the day it named; cancel path per the Hard rules in `SKILL.md`.
 - Before purchase, state what the user gets, price, billing period, and renewal terms, and how to cancel (App Store Review Guideline 3.1.2; Google Play Subscriptions policy). The price the user will be charged is the most prominent price.
-- Verify by: tracing where the paywall appears relative to the value moment; declining and confirming full free-tier function; counting cancel steps vs. subscribe steps.
+- Restore purchases is visible on the paywall without scrolling (Mobbin: Copilot, Stardust, Ahead, Joi, Lifesum); App Store Review Guideline 3.1.1 requires a restore mechanism for restorable purchases. Android: also re-query Play Billing purchases at launch, so a reinstall restores access without a tap.
+- Preselect the plan your purchase data shows most buyers choose (Principle 2). Shipping apps split here — annual preselected (Mobbin: Bevel, Ahead, Givingli, Stardust), monthly preselected (Mobbin: Public, Lifesum) — and nothing visible decides between them; without purchase data, list the default as an assumption and test it.
+- Verify by: tracing where the paywall appears relative to the value moment; declining and confirming full free-tier function; counting cancel steps vs. subscribe steps; restoring on a fresh install with a paid sandbox account (access returns, no new charge); confirming the trial reminder arrives on the named day.
 
 ## Settings & Account
 
@@ -190,10 +209,10 @@ Settings are where users go to fix something that annoyed them; the screen must 
 A user leaving must be able to take their data and be sure the deletion happened. This is also a legal and store-policy surface: GDPR, CCPA; App Store Review Guideline 5.1.1(v) (apps with account creation must offer in-app deletion); Google Play's account deletion policy (an in-app path plus a web link that works without reinstalling).
 
 - Export: one action, common format (CSV/JSON/PDF as fits), delivered in-app or by link; progress and completion visible; works for the free tier.
-- Delete account: reachable from settings in ≤3 taps, no support ticket, no dark-pattern retention flow. One honest screen states what is deleted, what is retained (legal/billing), and when. Confirm with re-auth, not with typed phrases.
+- Delete account: reachable from settings in ≤3 taps, no support ticket, no dark-pattern retention flow. The entry reads "Delete account" and sits last on the Account screen (Mobbin: Vestiaire Collective, Starbucks, Discord). One honest screen states what is deleted, what is retained (legal/billing), and when. Confirm with re-auth, not with typed phrases. On completion the app signs out to its welcome or sign-in screen (Mobbin: Vestiaire Collective, Zomato, Discord).
 - Grace period allowed only if stated with its end date and a way to cancel deletion; after it, confirmation by the user's channel.
-- Cancel subscription sits beside delete account (step count per the Hard rules in `SKILL.md`).
-- Verify by: running export and delete on a test account end to end; checking the data is gone from every user-visible surface and the confirmation arrived.
+- Cancel subscription: one plan screen, reached from the Account screen beside Delete account, shows plan name, price, next charge or trial-end date, and a "Cancel <plan>" entry without scrolling (Mobbin: Public, Blue Apron, Lifesum, KOHO, Quizlet). Store-billed plans name the store in that entry ("Cancel on App Store", "Cancel on Google Play") and deep-link to its subscription page (Mobbin: Quizlet, Ahead, Duolingo). Step count per the Hard rules in `SKILL.md`.
+- Verify by: running export and delete on a test account end to end; checking the data is gone from every user-visible surface, the app landed signed out, and the confirmation arrived; opening the plan screen on each platform and reaching the store's cancel page in one tap.
 
 ## Sharing & Invites
 

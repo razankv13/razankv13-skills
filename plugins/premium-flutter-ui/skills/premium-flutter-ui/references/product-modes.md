@@ -119,10 +119,7 @@ Translate the chosen direction into Flutter tokens and components using `craft-r
 
 ## Onboarding And First Run
 
-Onboarding flow behavior — skip paths, value-before-signup, contextual permissions, step count — is `mobile-ux` territory; consult that skill's playbooks for the flow shape. This skill implements the screens that flow specifies. Screen-level notes:
-
-- Prefer one contextual coach-mark pattern over six tutorial screens.
-- Set emotional tone with copy/illustration on trust-heavy products.
+Onboarding flow behavior — skip paths, value-before-signup, contextual permissions, step count — is `mobile-ux` territory; consult that skill's playbooks for the flow shape. This skill implements the screens that flow specifies: question screens follow `screen-patterns.md` Choice Question Screen, sign-in codes follow Verification Code Field, and paywalls follow Paywall Plan Picker.
 
 ## Revision Mode
 

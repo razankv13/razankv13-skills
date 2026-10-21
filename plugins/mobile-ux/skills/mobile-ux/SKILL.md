@@ -31,7 +31,7 @@ Audits need a flow artifact (screens, flow map, recording, or written flow descr
 
 Playbooks (per-flow rules, each ending in "Verify by"):
 
-- `references/playbooks.md` — onboarding, lifecycle-adaptive home, empty states, search, errors, forms, decision & commit screens, post-action status & tracking, permissions, interruption/resume, navigation & IA, platform back & deep-link entry, notifications & re-engagement, paywall placement, settings & account, data export/deletion, sharing & invites, multi-device & sync.
+- `references/playbooks.md` — onboarding, lifecycle-adaptive home, empty states, search, errors, undo & confirmation, forms and choice screens, decision & commit screens, post-action status & tracking, permissions, interruption/resume, navigation & IA, platform back & deep-link entry, notifications & re-engagement, paywall placement, settings & account, data export/deletion, sharing & invites, multi-device & sync.
 - `references/playbooks-lifecycle.md` — sign-up/sign-in & recovery, session expiry, lists/feeds & refresh, app updates & migration, rating & review prompts, platform consent prompts (Android 13 notifications, iOS provisional, ATT), screen size/rotation, localization, assistive-technology behavior, validating a change.
 
 ## Core Principles
@@ -46,7 +46,7 @@ Context-dependent heuristics, not guaranteed effects. Predicted conversion or re
 6. **Loss framing is a hypothesis.** Use it only to convey a real, verifiable consequence (actual data, actual expiry).
 7. **Contrast.** Every cost or ask is judged against what came just before; sequence context deliberately and show the honest anchor first.
 8. **Feedback is a contract.** Acknowledge every tap and give every perceptible wait a status. Optimistic updates only for recoverable actions, with defined rollback; payments, permissions, and irreversible actions stay pending until authoritative confirmation.
-9. **Undo over confirm.** Act-then-undo for reversible actions; confirmation for genuinely irreversible ones.
+9. **Undo over confirm.** Act-then-undo for reversible actions; confirmation for genuinely irreversible ones (`playbooks.md`, Undo & Confirmation).
 10. **Flows, not screens.** Every screen answers: how did I get here, what shows while loading, on failure, when empty, and where success leads.
 11. **The platform owns back.** System back and swipe-back are reflexes every screen and deep-link entry honors (`playbooks.md`, Platform Back).
 12. **Metric first.** Name the user problem and its behavioral metric before designing; record the rationale per decision.

@@ -75,6 +75,7 @@ Flutter specifics:
 - Use `Expanded`, `Flexible`, `Spacer`, `ConstrainedBox`, `AspectRatio`, slivers, and lazy builders instead of fixed positioning.
 - Use bottom navigation for broad mobile destinations.
 - Use sheets for secondary tasks and snackbars for lightweight confirmations (with undo where it fits), not for critical errors.
+- An undo snackbar floats above the bottom navigation bar and never covers it (Mobbin: Fiverr, Starbucks, Quo, Notion Mail; links in `mobbin-evidence.md`): use `SnackBarBehavior.floating`, message text per `mobile-ux` Undo & Confirmation, `Undo` as its `SnackBarAction`. Nested Scaffolds show snackbars only on the outermost one registered with the `ScaffoldMessenger`, so a shell `Scaffold` holding `bottomNavigationBar` already lifts them above the bar. A custom or floating bar drawn in a `Stack` needs a `SnackBar.margin` whose bottom clears the bar's height plus one spacing step.
 - Use platform-adaptive controls and `.adaptive()` constructors (`Switch.adaptive`, `AlertDialog.adaptive`, `showAdaptiveDialog`) for pickers, switches, dialogs, and input conventions when it matters.
 - For routing with deep links, prefer `go_router`; named routes are no longer the recommended default.
 
