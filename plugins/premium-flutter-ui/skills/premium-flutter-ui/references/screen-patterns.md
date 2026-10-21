@@ -4,10 +4,16 @@ Flutter structure for recurring mobile screens. Each pattern names the widget sk
 
 Skeletons are conditional examples: use only the parts the flow needs, reuse project components, and preserve accessibility and recovery. Do not add a hero, sticky bar, stage enum, or image grid solely to match this reference.
 
+`(Mobbin: …)` names the shipping apps where a pattern was observed (links in `mobbin-evidence.md`). Mobbin's catalog is iOS; the Flutter skeletons serve both platforms.
+
 ## Contents
 
 - Detail-Then-Commit Screen
 - Status Timeline
+- Paywall Plan Picker
+- Verification Code Field
+- Status View (Empty, Error, Offline)
+- Choice Question Screen
 - Search Surface
 - Stage-Adaptive Home
 - Category And Collection Tiles
@@ -46,6 +52,62 @@ Skeleton:
 - `Semantics` on each step: "Out for delivery, step 2 of 3, current". Group the header with `MergeSemantics` so a screen reader reads it as one sentence.
 
 States: no courier assigned yet (contact row shows "Assigning" placeholder, not empty space), delayed (headline changes and the window updates; do not just add a red badge), failed/cancelled (headline + recovery action), offline (last known state with a stale marker). Push notification for a state change deep-links here with a synthesized back stack.
+
+## Paywall Plan Picker
+
+Rule (from `mobile-ux` Paywall & Upgrade Placement): the billed price is the most prominent price; decline, restore, and terms are visible on the first frame.
+
+Skeleton:
+
+- Plans are one `RadioGroup<Plan>` of selectable cards, so selection state reaches screen readers. Selected card: 2 px `primary` border plus a filled radio or check; unselected: 1 px `outlineVariant` (Mobbin: Bevel, Ahead, Public, Givingli, Lifesum, Stardust).
+- Each card: plan name (`titleMedium`), billed amount with its period ("$89.98 / year", tabular figures) as the strongest price, and the per-period equivalent ("$7.50 / month") in `bodySmall` `onSurfaceVariant` (Mobbin: Bevel, Lifesum, Copilot). Stardust and Givingli lead with the monthly equivalent; that breaks the billed-price rule, so keep the billed amount strongest.
+- Badge: one fact ("Save 37%", "Most popular", "7 days free") in `labelSmall` on a small container overlapping the card's top edge (Mobbin: Bevel, Ahead, Lifesum, Stardust, Copilot). Overlap with a `Stack` (`clipBehavior: Clip.none`) and reserve top padding in the list so the badge never clips.
+- Layout: stacked full-width cards by default (Mobbin: Ahead, Joi, Public, Givingli). Side by side only for 2–3 plans whose name and price fit their column on one line each (Mobbin: Bevel, Stardust, Lifesum); decide with `LayoutBuilder` and `MediaQuery.textScalerOf`, falling back to stacked before any price wraps.
+- Purchase button pinned in `Scaffold.bottomNavigationBar` inside `SafeArea`; the plan list scrolls. Directly under it, one row of `TextButton`s: Restore purchases, Terms, Privacy (Mobbin: Joi, Lifesum, Copilot, Stardust).
+- Trial timeline: the Status Timeline skeleton above with three steps — today, reminder, charge (date and amount) (Mobbin: pillowtalk, Copilot, Stardust).
+
+States: prices loading (card skeletons at final size; purchase button disabled and labeled "Loading prices"), store unavailable (inline error with retry; close still works), purchase pending (button progress at the same size, cards locked), purchase cancelled or failed (inline message, selection kept), restore finished (snackbar "Purchases restored" or "No purchases to restore"), scaled text (stacked layout, cards grow, button label wraps).
+
+## Verification Code Field
+
+Rule (from `mobile-ux` Sign-Up, Sign-In & Account Recovery, Code entry): keypad up on open, submit on the last digit, countdown then Resend.
+
+Skeleton:
+
+- One `TextField` owns the code: `autofocus: true`, `keyboardType: TextInputType.number`, `autofillHints: const [AutofillHints.oneTimeCode]` (iOS `oneTimeCode`, Android `AUTOFILL_HINT_SMS_OTP`), `inputFormatters` = `FilteringTextInputFormatter.digitsOnly` + `LengthLimitingTextInputFormatter(length)`, and `onChanged` submits when the text reaches `length`. With a single field, paste and SMS autofill fill every digit at once.
+- Boxes, one per digit, render the controller's text, and the box at the next empty index is highlighted (Mobbin: Vivid, Shelf, Bolt, Zomato). Stack them under the field and make the field's own text, cursor, and border transparent; the field still covers the boxes, so taps focus it and long-press offers Paste. Highlight with the `primary` border.
+- Use one plain field instead of boxes when the code length varies by channel (Mobbin: GoPay).
+- Semantics: wrap the boxes in `ExcludeSemantics`; the field carries the label ("Verification code, 6 digits"), so a screen reader reads one field instead of six boxes.
+- Countdown directly under the boxes (Mobbin: Shelf, Bolt, Zomato) in `bodyMedium` with `FontFeature.tabularFigures()` so the digits hold still. Compute it from a stored deadline, so backgrounding cannot freeze it; at zero it becomes a "Resend code" `TextButton`.
+
+States: verifying (field read-only, inline progress), wrong or expired code (error text under the boxes, announced as a live region, focus kept in the field), resent (countdown restarts; a snackbar names where the new code went), scaled text (boxes keep a fixed square size; the row scrolls horizontally or the boxes shrink to their minimum target before any digit clips).
+
+## Status View (Empty, Error, Offline)
+
+Rule (from `mobile-ux` Empty States and Errors and Recovery): one message, one next action, and only the failed region is replaced.
+
+Skeleton:
+
+- One shared widget, such as `StatusView(icon:, title:, body:, action:)`, renders every empty, error, and offline state (Mobbin: komoot, timespent, Bluesky Social, Lex, Zomato, Cherrypick, Origin, Fresha, Noom, HYPE). Reuse the project's equivalent when it has one.
+- It fills the region whose data is missing — a list body, a sheet, a tab's content — and leaves the `Scaffold`'s app bar, navigation bar, and filters in place. Center a `mainAxisSize: MainAxisSize.min` `Column` in that region; center alignment is correct for status views.
+- Icon at most 48 logical px in `onSurfaceVariant` (optionally on a tinted circle), or no icon (Mobbin: timespent, Bluesky Social, Lex, Zomato, Origin; no icon: komoot, Nike Run Club, Cherrypick). A large illustration suits only a project that already owns an illustration set (Mobbin: Starbucks, Lloyds Mobile Banking).
+- Title `titleMedium`; body `bodyMedium` `onSurfaceVariant`, two lines at 1.0 text scale; action a compact `FilledButton.tonal` (or `FilledButton`) sized to its label, directly under the body (Mobbin: komoot, timespent, Bluesky Social, Lex, Cherrypick, Origin, Fresha, Noom, HYPE). Nike Run Club pins a full-width button at the bottom instead; match that only when the project already places primary buttons there.
+- Errors that replace content after load use `Semantics(liveRegion: true)` on the title so screen readers announce them.
+
+States: scaled text (body wraps past two lines; the view scrolls inside its region instead of clipping), retry pending (the action shows progress at the same size), RTL (centered layout needs no mirroring; directional icons still mirror).
+
+## Choice Question Screen
+
+Onboarding questions, surveys, intake. Rule (from `mobile-ux` Onboarding and Forms and Input, choice screens): one question per screen; `mobile-ux` decides Skip and whether the screen advances on tap or on Continue.
+
+Skeleton:
+
+- App bar: back as leading, progress as the title area — a `LinearProgressIndicator` with `semanticsLabel` "Question 2 of 5", or "2 / 5" text (Mobbin: Life Reset, Nibble, UNIQLO, pliability, LinkedIn) — and Skip as a trailing `TextButton` when the question is optional (Mobbin: UNIQLO, pliability, LinkedIn). Progress counts answered questions.
+- Question in `headlineSmall`, left-aligned; the why-line under it in `bodyMedium` `onSurfaceVariant`.
+- Options are full-width rows at least 56 dp tall (Mobbin: Neo Financial, Ahead, LinkedIn, Fresha, pliability, Insight Timer). Selected: 2 px `primary` border plus a trailing radio or check; unselected: `surfaceContainer` fill or 1 px `outlineVariant`. Single choice uses a `RadioGroup` of radio rows; multi-select uses checkbox rows, so the selection state reaches screen readers.
+- Continue, when the question has one, is pinned in `Scaffold.bottomNavigationBar` inside `SafeArea`; a multi-select Continue stays disabled until the first pick (the exception named in Form Screen).
+
+States: returning via back (previous answer shown selected), scaled text (rows grow and wrap; nothing clips), RTL (`LinearProgressIndicator` fills from the right on its own; trailing controls mirror).
 
 ## Search Surface
 
@@ -127,7 +189,7 @@ Skeleton:
 - Row anatomy, leading to trailing: identity (avatar/icon, 40dp) → primary text (`bodyLarge`, one line, ellipsis) + secondary line (`bodyMedium`, `onSurfaceVariant`) → trailing value (`bodyLarge`, tabular numerals via `FontFeature.tabularFigures()`) + status chip or timestamp (`labelSmall`). Trailing column right-aligned so numbers line up down the screen.
 - Status is never color-only: chip carries text or icon. Semantic tokens for success/warning/error.
 - Grouping: sticky section headers (`SliverPersistentHeader` pinned, or a `sticky_headers`-style package only if already installed) by date or state. Use the project section-heading style; add a container only when it clarifies a real group boundary.
-- Swipe actions (`Dismissible`) always have a visible equivalent (visible overflow menu) and undo via `SnackBar`.
+- Swipe actions (`Dismissible`) always have a visible equivalent (visible overflow menu) and undo via `SnackBar`, placed per `flutter-delivery-contract.md` Layout And Navigation.
 - Filters as a horizontal `ChoiceChip` row pinned above the list; active count shown on the filter button.
 
 States: skeleton rows matching row height (not spinner), empty per filter ("No unpaid invoices" + clear filter), error inline with retry above the last good list, pagination loading row at the end, scaled text (secondary line wraps to two lines, row grows, trailing value never clips: give it flexible space or move it below the label; preserve the requested text scale).
@@ -141,7 +203,7 @@ Skeleton:
 - `Form` + `GlobalKey<FormState>` with `AutovalidateMode.onUserInteraction`; a `Scaffold` whose body is a `ListView` (not `Column`) so the keyboard never causes overflow, `resizeToAvoidBottomInset: true`.
 - Field order matches the mental order of the task; related short fields share a `Row` (city + postcode), everything else full width. Field spacing 16, section spacing 24-32 with a `titleMedium` section header.
 - Each `TextFormField`: label as `labelText` (floats), helper text for format hints, `keyboardType` and `textInputAction` set (`next` for all but last, `done`/`send` on last), `autofillHints` set, `textCapitalization` for names. Error text is plain language and says what to do.
-- Submit lives in `bottomNavigationBar` inside `SafeArea` with keyboard-inset padding, so it stays visible while typing. Label states the outcome ("Save address", "Create account"), disabled only while submitting, never for "form not yet valid" (users cannot see why).
+- Submit lives in `bottomNavigationBar` inside `SafeArea` with keyboard-inset padding, so it stays visible while typing. Label states the outcome ("Save address", "Create account"), disabled only while submitting, never for "form not yet valid" (users cannot see why). One exception: a multi-select Choice Question Screen disables Continue until the first pick, because an empty selection is visible.
 - Progress for multi-step forms: `LinearProgressIndicator` or step text ("Step 2 of 3") at the top; back preserves entered values via the step's state object.
 - Unsaved changes: use `PopScope(canPop: !dirty)` and the project's save/discard flow for system back and explicit close controls. After confirmation, permit the intended pop; check mounted state after the await. Test Android back and iOS explicit close (a blocked Cupertino back gesture may not call the pop callback).
 

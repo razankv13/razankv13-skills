@@ -39,7 +39,7 @@ Signals to investigate, not automatic violations. Flag one only when it weakens 
 - Same-size card grids with icon, heading, and short text repeated across the screen.
 - Large rounded icons above every heading.
 - Big hero number plus small label plus gradient accent line repeated across dashboards.
-- Centered body copy and uniform spacing rhythm everywhere.
+- Centered body copy and uniform spacing rhythm everywhere (status views are centered by design: `screen-patterns.md` Status View).
 - Default Material cards, AppBars, buttons, and shadows with no product layer.
 - Over-rounded cards with floating glow shadows.
 - Bounce or elastic easing in utilitarian flows.
@@ -148,7 +148,7 @@ Use restrained easing in utilitarian flows. Reduced-motion behavior and its Flut
 Premium UI is visible off the happy path:
 
 - Loading state preserves layout and avoids jumpy spinners; prefer skeletons that match final layout dimensions over a generic spinner.
-- Empty state explains what happened and the next useful action. Three useful kinds: informational, action-focused (guide and point to the first action), and celebratory ("all caught up"). Treat empties as onboarding, not 404s.
+- Empty and error states render through one shared Status View (`screen-patterns.md`). Empty states come in three kinds: informational, action-focused (point to the first action), and celebratory ("all caught up").
 - Error state is specific, plain-language, recoverable, and not color-only ("that email looks off, did you mean gmail.com?"). Offer retry/undo.
 - Disabled state explains or implies why action is unavailable.
 - Success state confirms without blocking flow unnecessarily. Use optimistic UI only for recoverable changes with explicit pending/failure feedback and rollback or reconciliation; show confirmed success only after authoritative completion for payments, permissions, or irreversible actions.
