@@ -19,13 +19,14 @@ Second playbook file: same format and rules as `playbooks.md` (patterns apply wh
 
 - One primary path matched to the audience: passkey, email magic link / one-time code, or platform sign-in. Passwords stay available where users expect them; offer autofill and password-manager support either way.
 - iOS: an app offering third-party or social login must also offer an equivalent privacy-focused login option (App Store Review Guideline 4.8). Sign in with Apple satisfies it. 4.8 does not apply to apps using only their own account system, education/enterprise apps using existing org accounts, government or industry ID systems, or clients for a specific third-party service.
-- Sign-up and sign-in share one entry ("Continue with email"); the app decides which applies after the identifier, so users never pick the wrong door.
+- Sign-up and sign-in share one entry ("Continue with email"); the app decides which applies after the identifier, so users never pick the wrong door (Mobbin: Mindtrip, Fresha, Posh, Brick, Depop, Zomato). The other identifier type is one secondary action ("Use phone instead"), not a second form (Mobbin: Posh, Fresha, Zomato). A separate log-in form suits only password-first account systems (Mobbin: ShopBack).
 - Guest work carries over: anything created before sign-up merges into the new account; an identifier that already exists signs in and merges, never errors out and discards.
-- Recovery is self-serve from the sign-in screen, states where the code/link went, allows resend after a stated wait, and returns the user to the task they started.
+- Recovery is self-serve from the sign-in screen, states where the code/link went, allows resend per Code entry below, and returns the user to the task they started.
+- Code entry: the screen opens with the numeric keypad focused (Mobbin: Vivid, Shelf, Bolt), names where the code went, and submits on the last digit with no Continue button (Mobbin: Vivid, Shelf, Bolt, Zomato). Resend unlocks after a visible countdown, then becomes a Resend action (Mobbin: Vivid, Shelf, Bolt, GoPay, Zomato). Default to 30 s, the observed start in GoPay and Zomato; Vivid starts at 2 min.
 - Managed accounts (workforce, school, enterprise SSO): no self sign-up; the organization provisions accounts, and recovery routes to the admin or identity provider when self-serve reset isn't allowed. Say so on the sign-in screen instead of offering a reset that will fail.
 - Shared devices: fast user switching from the sign-in entry; each user sees only their own data; signing out or switching never discards another user's queued offline work.
 - Offline sign-in: when policy allows, a returning user unlocks cached credentials with a local PIN or biometric and works offline; first sign-in and password reset need connectivity, and the screen states that plainly with an offline fallback (retry when online, ask an admin).
-- Verify by: signing up after creating guest content (content survives); entering an existing account's identifier on sign-up (lands signed in); running recovery end to end without support; on shared or offline devices, switching users with queued work and signing in with no connection.
+- Verify by: signing up after creating guest content (content survives); entering an existing account's identifier on sign-up (lands signed in); running recovery end to end without support; on the code screen, typing the last digit submits and the countdown turns into Resend at zero; on shared or offline devices, switching users with queued work and signing in with no connection.
 
 ## Session Expiry & Re-Authentication
 
@@ -65,8 +66,8 @@ Extends Permissions and Notifications in `playbooks.md`.
 - Android 13+ (API 33): posting notifications needs the `POST_NOTIFICATIONS` runtime permission. Request it in context. Apps targeting API 32 or lower get the system prompt automatically when they create their first notification channel, so target 33+ to control the timing. On Android 8+ users can also disable notifications per app and per channel in system settings: map each in-app category to its own `NotificationChannel` so the two sets of controls match.
 - iOS 12+: provisional authorization delivers quietly to Notification Center without a prompt; ask for full alerts once the user has seen value from them.
 - iOS 14.5+: tracking across other companies' apps and sites needs App Tracking Transparency consent (App Store Review Guideline 5.1.2(i)). A pre-prompt may explain the benefit but must not offer incentives or imitate the system alert (Apple, "User Privacy and Data Use"); the app works identically after "Ask App Not to Track".
-- A denied OS prompt usually cannot be re-shown; the path back is a settings deep link offered when the user next tries the feature.
-- Verify by: denying each consent on a fresh install and confirming the feature degrades gracefully and the re-enable path exists.
+- A denied OS prompt usually cannot be re-shown; the path back is the system settings page. The in-app notification settings screen reads the OS status on open: when off, it leads with one line naming the problem and an "Open settings" deep link, with category switches visible but inactive (Mobbin: Phantom, Notion Mail, Mindtrip). A dialog carrying the same action fits only right after the user taps a control that needs the permission (Mobbin: talabat, Lifesum). Android: a channel the user disabled in system settings shows the same state on its category row.
+- Verify by: denying each consent on a fresh install and confirming the feature degrades gracefully and the re-enable path exists; turning notifications off in system settings, then opening in-app notification settings and finding the off state with "Open settings".
 
 ## Screen Size, Rotation & Multi-Window
 

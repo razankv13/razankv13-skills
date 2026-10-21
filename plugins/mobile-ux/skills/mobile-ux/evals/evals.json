@@ -30,7 +30,8 @@
         "Names loading/error/success states for the steps",
         "States back-navigation or interruption/resume behavior",
         "Names a primary metric and a guardrail metric, with a baseline or 'pending baseline' label",
-        "States deletion is reachable in-app (e.g. from Settings) without contacting support, and the cancel/keep option is neutrally worded (no confirmshaming)"
+        "States deletion is reachable in-app (e.g. from Settings) without contacting support, and the cancel/keep option is neutrally worded (no confirmshaming)",
+        "After deletion completes, the app signs out and lands on its welcome or sign-in screen (not the deleted account's home)"
       ]
     },
     {
@@ -74,6 +75,70 @@
         "Asks the user for a flow artifact (screens, recording, or written flow) before auditing",
         "Does not present a full severity-ranked audit of Duolingo's onboarding as if from evidence",
         "Explains why an app name alone is insufficient (e.g. flow varies by version/platform/region/experiment, or memory is not evidence)"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "trial-paywall-consult",
+      "prompt": "Our meditation app (Flutter, iOS + Android) is adding a 7-day free trial on the annual plan. Today's paywall: a feature list, monthly and annual cards with monthly preselected, a 'Continue' button, and a small X in the corner. What should the trial paywall show and do?",
+      "expected_output": "Consult: three-step trial timeline (today / named reminder day / charge date + amount), action names the trial length, restore purchases visible without scrolling, preselected plan decided by purchase data, reminder actually sent, both stores covered, Verify-by, assumptions.",
+      "files": [],
+      "assertions": [
+        "Requires a timeline before purchase covering today, a reminder on a named day before the trial ends, and the charge date with the amount",
+        "Replaces 'Continue' with an action that names the trial length (e.g. 'Start 7-day free trial')",
+        "Requires a Restore purchases action visible on the paywall without scrolling",
+        "Treats which plan is preselected as a decision for the app's purchase data (or a labeled assumption to test), not a universal rule that annual or monthly is correct",
+        "Requires the app to send the promised reminder and includes a check that it arrives on the named day",
+        "Covers Android as well as iOS (e.g. names Google Play / Play Billing alongside the App Store)",
+        "Does not state conversion uplift as fact"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "notification-permission-and-settings-flow",
+      "prompt": "Design how our grocery delivery app (Flutter, iOS + Android) asks for notification permission, and what the in-app notification settings screen does. We send order status updates, delivery driver messages, weekly deals, and new-feature announcements.",
+      "expected_output": "Flow design: contextual ask after first order with an own pre-frame naming the benefit and a 'Not now' that skips the OS prompt; settings grouped transactional vs promotional with when-it-fires rows; OS-off state with Open settings; Android 13 / channels; metric + guardrail.",
+      "files": [],
+      "assertions": [
+        "Asks for permission in context (e.g. after the first order is placed), not at launch, with the app's own pre-frame screen before the OS prompt",
+        "The pre-frame headline names what the user gets (order/delivery updates), not a generic 'Enable notifications'",
+        "The pre-frame has a 'Not now' option that closes it without triggering the OS prompt",
+        "Puts order updates and driver messages in a separate group from deals and feature announcements, so turning off promotional ones leaves transactional ones on",
+        "Each category row states when it fires",
+        "The settings screen detects notifications turned off at the OS level and shows that state with an 'Open settings' deep link",
+        "Covers Android specifics: POST_NOTIFICATIONS on Android 13+ and/or one NotificationChannel per in-app category",
+        "Names a primary metric and a guardrail metric, with a baseline or 'pending baseline' label"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "code-signin-audit",
+      "prompt": "Audit our sign-in flow (Flutter, iOS + Android). As it ships:\n1. Welcome screen with two buttons: 'Log in' and 'Create account'.\n2. Create account asks email, password, confirm password; Log in asks email and password.\n3. Either path then emails a 6-digit code. Code screen: six separate boxes, the keyboard does not open until you tap the first box, a 'Verify' button at the bottom, and a 'Resend code' link that is always active.\n4. Pasting the code from the email fills only the first box.",
+      "expected_output": "Audit: severity-ranked findings with evidence/harm/fix/metric — split entry should be one identifier entry, keypad should open automatically, submit on last digit, resend behind a visible countdown, paste must fill the whole code (implementation handed to UI skill); fix-first named; runtime items Not verified.",
+      "files": [],
+      "assertions": [
+        "Flags the separate 'Log in' / 'Create account' entry and recommends one shared identifier entry that decides sign-in vs sign-up after the email",
+        "Flags that the keyboard does not open automatically on the code screen",
+        "Recommends submitting automatically on the last digit instead of requiring the 'Verify' button",
+        "Flags the always-active resend link and recommends a visible countdown (around 30 seconds) before Resend unlocks",
+        "Treats paste filling only one box as a finding and hands the field implementation to the UI skill instead of prescribing widget code",
+        "Uses at least two severity levels and names exactly one finding to fix first",
+        "Marks device-dependent items (e.g. SMS/email autofill, screen reader behavior) as Not verified from a written description"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "error-and-undo-consult",
+      "prompt": "Two questions about our notes app (Flutter, iOS + Android). (1) When the notes list fails to load, we push a full-screen 'Something went wrong' page whose OK button goes back to the previous screen. Fine? (2) Deleting a note shows 'Are you sure?' with Yes / No. Deleted notes go to a Recently Deleted folder for 30 days. Keep the dialog?",
+      "expected_output": "Two consults: (1) in-place error in the list region with retry, navigation usable, offline vs server distinguished, support route for server errors; (2) act-then-undo with 'Note deleted · Undo' since deletion is recoverable; any remaining confirmation (permanent delete) uses the verb and states the loss; Verify-by each; assumptions.",
+      "files": [],
+      "assertions": [
+        "Q1: replaces the pushed full-screen error with an error shown in place of the list, with retry, while navigation and other loaded content stay usable",
+        "Q1: distinguishes offline errors (Try again) from server errors, which also get a support route",
+        "Q2: recommends removing the confirmation and using act-then-undo because the deletion is recoverable for 30 days",
+        "Q2: the undo message names the object and the past-tense action (e.g. 'Note deleted · Undo') with a single Undo action",
+        "Any confirmation kept (e.g. permanent delete from Recently Deleted) uses the verb on its button ('Delete') instead of 'Yes' and states what is lost",
+        "Gives a Verify-by check for each answer and lists assumptions"
       ]
     }
   ]
