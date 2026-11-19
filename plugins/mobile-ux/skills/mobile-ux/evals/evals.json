@@ -140,6 +140,18 @@
         "Any confirmation kept (e.g. permanent delete from Recently Deleted) uses the verb on its button ('Delete') instead of 'Yes' and states what is lost",
         "Gives a Verify-by check for each answer and lists assumptions"
       ]
+    },
+    {
+      "id": 9,
+      "name": "visual-styling-negative",
+      "prompt": "The primary buttons in our Flutter banking app look flat and cheap. Pick a fill color, corner radius, and shadow for them so they feel premium.",
+      "expected_output": "Concrete visual values for the button (fill color, corner radius, shadow or elevation), answered as a styling question without a flow or behavior audit.",
+      "expected_skill": null,
+      "files": [],
+      "assertions": [
+        "Gives a specific fill color, corner radius, and shadow or elevation for the primary button",
+        "Does not turn the answer into a flow, onboarding, or friction audit"
+      ]
     }
   ]
 }
