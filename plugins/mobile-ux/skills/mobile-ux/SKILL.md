@@ -1,6 +1,6 @@
 ---
 name: mobile-ux
-description: Use when designing, reviewing, or answering a question about iOS/Android app behavior and flows — onboarding, sign-in/recovery/session expiry, navigation and back/deep links, empty states, lists and feeds, forms, permissions and consent prompts, notifications, paywalls and rating prompts, error/offline recovery, app updates, account deletion, accessibility and localization behavior, engagement/retention mechanics, validating a change — or running a UX/friction audit. Behavior, flows, and psychology only; visual look-and-feel belongs to a UI skill.
+description: "Use for iOS/Android UX flows: onboarding, sign-in, navigation, empty states, forms, permissions, notifications, paywalls, errors/offline, retention, account deletion, UX audits. Not visual UI."
 metadata:
   author: Raza Abbas
   tags: [mobile, ux, ios, android, flows]
