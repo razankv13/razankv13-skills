@@ -112,7 +112,7 @@ When the user wants a vibe but no exact spec, propose one direction and name its
 
 - **Editorial**: strong type hierarchy, generous whitespace, restrained color.
 - **Fintech Trust**: sober surfaces, one accent family, tabular numerals, no marketing chrome.
-- **SaaS Utility**: dense but scannable, clear states, low decoration.
+- **SaaS Utility**: dense but scannable, legible state changes, low decoration.
 - **Soft Consumer**: warm tinted neutrals, friendly shapes, gentle motion.
 
 Translate the chosen direction into Flutter tokens and components using `craft-rubric.md` Visual Direction.
