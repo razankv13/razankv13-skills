@@ -83,7 +83,7 @@ Tapping search is a moment of intent, often without a precise query. A blank scr
 Principle 9 in `SKILL.md` picks the mechanism by what the action destroys, not by its name: archiving a conversation is undone (Mobbin: LinkedIn, Fiverr); archiving a savings goal that removes its balances is confirmed (Mobbin: Copilot).
 
 - Undo: act immediately, then show a message naming the object (with a count when more than one) and the past-tense verb, with one Undo action ("Conversation archived · Undo", "2 conversations archived · Undo") (Mobbin: LinkedIn, Fiverr, Starbucks, Quo, Notion Mail).
-- Confirmation: the title is the verb as a question ("Archive goal?"), the body states what is lost and what survives ("History is kept; balances are removed"), and the confirm button repeats the verb ("Archive", "Delete account") (Mobbin: Copilot, Insight Timer, Orbit, Vestiaire Collective).
+- Confirmation: the title is the verb as a question ("Archive goal?"), the body states what is lost and what survives ("History is kept; balances are removed"), and the confirm button repeats the verb (Archive, Delete account) (Mobbin: Copilot, Insight Timer, Orbit, Vestiaire Collective).
 - Verify by: listing every destructive action with its mechanism and what it destroys; each undo message names the object and the verb; each confirm button is a verb.
 
 ## Forms and Input

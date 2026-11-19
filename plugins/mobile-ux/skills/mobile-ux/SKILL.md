@@ -1,13 +1,24 @@
 ---
 name: mobile-ux
 description: Use when designing, reviewing, or answering a question about iOS/Android app behavior and flows — onboarding, sign-in/recovery/session expiry, navigation and back/deep links, empty states, lists and feeds, forms, permissions and consent prompts, notifications, paywalls and rating prompts, error/offline recovery, app updates, account deletion, accessibility and localization behavior, engagement/retention mechanics, validating a change — or running a UX/friction audit. Behavior, flows, and psychology only; visual look-and-feel belongs to a UI skill.
+metadata:
+  author: Raza Abbas
+  tags: [mobile, ux, ios, android, flows]
 ---
 
 # Mobile UX
 
+## Purpose
+
 Behavioral UX for mobile apps (iOS + Android, any framework): how an app behaves, flows, and feels over time — never how it looks.
 
 **The wireframe test** gates every recommendation: would it survive if the app were rendered as unstyled wireframes? Fails the wireframe test → out of scope, hand it to the UI skill.
+
+## Prerequisites
+
+- Audit: a flow artifact (see Modes).
+- Flow design and Consult: the platforms, the user goal, and any business constraint (free tier, paywall, account model). Missing context becomes a listed assumption.
+- No tools or keys: the Mobbin citations are pre-collected in `references/mobbin-evidence.md`.
 
 ## Scope
 
@@ -74,11 +85,31 @@ Hard rules: decline options are always available, findable, and neutrally worded
 
 **Flow design** → numbered step map (entry → value moment → exit), applicable states per step (loading/empty/error/success, N/A with reason), interruption/resume, primary metric + guardrail with a baseline-backed or user-supplied target, else labeled *pending baseline* (`references/flow-design.md`). One flow per deliverable.
 
-**Consult** → the answer first, the playbook rule it rests on, one "Verify by" check the user can run, and a note on which part of their question fell outside the evidence given. Name a metric only when the answer changes a flow's behavior; baseline it per `references/flow-design.md` or mark it *pending baseline*.
+**Consult** → the answer first, the playbook rule it rests on, one "Verify by" check the user can run, and a note on which part of their question fell outside the evidence given. Name a metric only when the answer changes a flow's behavior; baseline it per `references/flow-design.md` or mark it *pending baseline*; see Examples.
+
+Every mode ends by listing assumptions made from missing context. For mixed UX/UI work, hand the UI skill one compact contract: **user goal → flow and applicable states → constraints → acceptance checks**. The UI skill reuses it instead of repeating the flow work.
+
+## Examples
+
+Consult:
 
 > *Q: "Should the paywall show right after signup?"* No: signup isn't a value moment. Show it after the first completed core action, at a task boundary, with a neutrally worded decline visible from the first frame (`playbooks.md`, Paywall & Upgrade Placement). Verify by: tracing the paywall trigger and confirming a completed core action precedes it. Outside the evidence given: whether your free tier limits are disclosed up front. Metric: value moment → paid conversion, *pending baseline*. Assumptions: the app has a free tier; "signup" means account creation, not purchase.
 
-Every mode ends by listing assumptions made from missing context. For mixed UX/UI work, hand the UI skill one compact contract: **user goal → flow and applicable states → constraints → acceptance checks**. The UI skill reuses it instead of repeating the flow work.
+## Limitations
+
+- Behavior only; visual design goes to the UI skill.
+- Screenshots and written flows cannot show runtime timing, offline handling, screen-reader output, or recovery; those stay Not verified.
+- Mobbin evidence is iOS screens; Android rules are mapped equivalents, not observed screens.
+- Conversion and retention effects are hypotheses until measured against the stated metric.
+- App Store and Google Play policy references date from the skill's last update; check current policy before a store review.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|-|-|-|
+| Audit request names an app but gives no screens | The live flow varies by version, platform, region, and experiment | Ask for a flow artifact first |
+| Request mixes styling with flow | The visual half fails the wireframe test | Answer the behavior; hand the UI skill the contract under Output |
+| No baseline for the metric | No analytics shared | Label the target *pending baseline* |
 
 ## Completion Check
 
