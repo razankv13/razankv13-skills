@@ -1,13 +1,24 @@
 ---
 name: premium-flutter-ui
-description: Use when generating, reviewing, refining, or auditing Flutter mobile UI for iOS and Android — screens, flows, reusable components, tokenized ThemeData/ColorScheme/ThemeExtension systems, motion, accessibility (screen reader, keyboard focus, text scale, RTL), localization/state coverage, edge-to-edge and system bars, dark mode, M2→M3 migration, UI performance, or anti-generic "AI-looking" critique. Not for HTML/CSS/JS/React web UI. Behavioral UX (flows, onboarding, retention, friction) belongs to mobile-ux; this skill implements the screens those flows specify.
+description: "Use for Flutter iOS/Android UI: screens, components, ThemeData/ThemeExtension tokens, motion, accessibility, dark mode, M3 migration, UI review, anti-generic critique. Not web UI or UX flows."
+metadata:
+  author: Raza Abbas
+  tags: [flutter, ui, ios, android, theming]
 ---
 
 # Premium Flutter UI
 
+## Purpose
+
 Make Flutter mobile UI read **product-authored** — every visual decision traceable to this product's content, brand, or audience — instead of template-generated. Default target is iOS and Android mobile; include web, desktop, or pricing strategy only when the user asks.
 
-This skill owns implementation, review, refactor, and polish of Flutter UI code. For a packaged art-direction concept (divergent directions, tokens JSON, motion spec from a screenshot or brief), use `mobile-art-director` if installed; otherwise develop the concept here using the project's design guidance.
+This skill owns implementation, review, refactor, and polish of Flutter UI code. For a packaged art-direction concept (divergent directions, tokens JSON, motion spec from a screenshot or brief), use `mobile-art-director` if installed; otherwise develop the concept here using the project's design guidance. Behavioral UX (flows, onboarding, retention, friction) belongs to `mobile-ux`; this skill implements the screens those flows specify. HTML/CSS/JS/React web UI is out of scope.
+
+## Prerequisites
+
+- The target Flutter code, or a standalone snippet or screenshot for a general review.
+- For validation: a Flutter SDK able to run `flutter analyze` and `flutter test` in the target repo.
+- For rendered inspection: a simulator, emulator, or screenshot harness. Without one, rendered checks are reported as unverified.
 
 ## First Move
 
@@ -22,8 +33,8 @@ Scale the census, state coverage, and validation to the requested change. For ea
 
 Then run a **token census** — locate the design vocabulary that already exists before inventing any:
 
-- Project instructions: `AGENTS.md`/`CLAUDE.md`, nearest feature instructions, design/product docs.
-- Existing UI system: `ThemeExtension` subclasses, `design_system/`/`theme/` directories, context extensions (`context.colorScheme`-style), spacing/radius/motion constants, branded components, icon/asset wrappers, localization setup.
+- Project instructions: the target repo's agent instruction files (AGENTS or CLAUDE), nearest feature instructions, design/product docs.
+- Existing UI system: `ThemeExtension` subclasses, design system or theme directories, context extensions (a `colorScheme` getter on `BuildContext`), spacing/radius/motion constants, branded components, icon/asset wrappers, localization setup.
 - Target code: the screens, widgets, state objects, and tests the request touches.
 - Visual evidence: screenshots, goldens, Widgetbook stories when available.
 
@@ -57,7 +68,7 @@ Optional external design references: use a library supplied by the user or named
 
 For generation or refactor:
 
-1. Define the primary job, audience, platform assumptions, and real content. Use representative, privacy-safe content and realistic edge cases (`$12,847.32`, `Alexandra Konstantinidis`) and, where the screen holds photos, real imagery variance (bright, dark, busy, clean) — the places real content breaks are where design decisions are needed.
+1. Define the primary job, audience, platform assumptions, and real content. Use representative, privacy-safe content and realistic edge cases (`USD 12,847.32`, `Alexandra Konstantinidis`) and, where the screen holds photos, real imagery variance (bright, dark, busy, clean) — the places real content breaks are where design decisions are needed.
 2. Census results in hand: existing tokens, components, navigation, state, localization patterns.
 3. Shape hierarchy in grayscale first — spacing, size, weight, contrast. Color is the last layer.
 4. Style through `ThemeData`, `ColorScheme`, `TextTheme`, `ThemeExtension`.
@@ -104,7 +115,7 @@ Climb this ladder; stop at the first rung that holds:
 4. Tiny local wrapper.
 5. New dependency, only when it removes repeated work.
 
-Prefer built-in `HapticFeedback`, Flutter animations, `LayoutBuilder`, `MediaQuery.sizeOf`, `SafeArea`, `Semantics`, lazy builders, project tokens. Package specifics and shortlist: `references/flutter-delivery-contract.md`.
+Prefer built-in `HapticFeedback`, Flutter animations, `LayoutBuilder`, `MediaQuery` size lookups, `SafeArea`, `Semantics`, lazy builders, project tokens. Package specifics and shortlist: `references/flutter-delivery-contract.md`.
 
 ## Completion Bar
 
@@ -117,3 +128,28 @@ Done means the output:
 - Ran focused validation (analyzer/test/golden/screenshot/a11y/performance as relevant). Use applicable checks from `references/example_test.dart`; motion tests must assert the reduced-motion behavior, not merely that a widget renders.
 - For rendered UI changes, inspect the affected output using an available simulator/emulator or screenshot harness. Use `references/review-calibration.md` scoring and the full craft rubric for new screens, redesigns, or requested audits; for a small refinement, check the affected layout and states. No visual check possible → say so explicitly.
 - Names residual risks, skipped checks, and any package or licensing concerns.
+
+## Examples
+
+Review finding:
+
+> **P1 · Low-contrast secondary label** — Wallet screen, balance card: `TextStyle(color: Color(0xFF9E9E9E))` on the card surface. fg #9E9E9E on bg #FFFFFF = 2.7:1, below 4.5:1 for body text. Fix: use `colorScheme.onSurfaceVariant` and recheck the ratio in light and dark.
+
+Generate request, "build a settings screen": census the theme first, reuse the existing list-tile and switch primitives, cover loading, error, disabled, and 200% text scale, then report which tokens were reused and which checks ran.
+
+## Limitations
+
+- Mobile Flutter only; web, desktop, and pricing strategy are covered only when asked.
+- Analyzer and widget tests prove code, layout, and semantics behavior, not appearance; without a simulator or screenshot, visual quality stays unverified.
+- Screen reader output (VoiceOver/TalkBack) needs a device or simulator pass; semantics-tree tests are a proxy.
+- The reference `example.dart` and `example_test.dart` are validated on Flutter 3.47.5; check the installed SDK for API differences.
+- Mobbin citations come from Mobbin's iOS catalog; Android patterns are mapped equivalents.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|-|-|-|
+| Output uses raw hex, radius, or font literals | Token census skipped | Rerun the census; map each value to a token or justify a new one |
+| Screen looks like a template | Framework defaults or Anti-Generic Detector patterns | Check `references/craft-rubric.md` and set the three identity carriers |
+| Small copy fix grows into a redesign | Scope not held | Check only the affected component and its states |
+| No way to inspect the rendered UI | No simulator or screenshot harness | Mark visual checks unverified and name the blocker |

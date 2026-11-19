@@ -1,6 +1,6 @@
 # Mobbin Evidence
 
-Maintenance only: the source behind every `(Mobbin: …)` citation in `screen-patterns.md` and `flutter-delivery-contract.md`. Collected 2026-10-22 from Mobbin's iOS catalog (it has no Android catalog). Before strengthening or adding a cited rule, re-open the links; a rule keeps a citation only while 3 or more apps still show the pattern, and an app that changed its screen comes off the list. Behavioral sources (what a screen must do) live in `mobile-ux`'s own `mobbin-evidence.md`.
+Maintenance only: the source behind every `(Mobbin: …)` citation in `screen-patterns.md` and `flutter-delivery-contract.md`. Collected 2026-10-22 from the Mobbin iOS catalog (it has no Android catalog). Before strengthening or adding a cited rule, re-open the links; a rule keeps a citation only while 3 or more apps still show the pattern, and an app that changed its screen comes off the list. Behavioral sources (what a screen must do) live in the `mobbin-evidence.md` of `mobile-ux`.
 
 Format: app — what the screen shows — link.
 

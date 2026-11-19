@@ -44,7 +44,7 @@ Signals to investigate, not automatic violations. Flag one only when it weakens 
 - Over-rounded cards with floating glow shadows.
 - Bounce or elastic easing in utilitarian flows.
 - Inter/Roboto/Arial/Open Sans as the entire identity rather than a considered type system.
-- Surface colors chosen without checking contrast, grouping, and product context.
+- Surface colors picked before contrast, grouping, and product context are checked.
 - Placeholder copy, fake names, lorem ipsum, fake AI art, or content that dodges real edge cases.
 - Only happy-path screens.
 - Photo tiles whose labels lose contrast or whose inconsistent imagery impairs scanning.
